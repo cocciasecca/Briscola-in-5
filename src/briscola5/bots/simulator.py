@@ -82,7 +82,9 @@ def game(num_games: int = 1000, show_prints: bool = True) -> None:
                             break
 
                     if not success:
-                        raise RuntimeError(f"P{curr_player} He has no cards valid for discarding.")
+                        raise RuntimeError(
+                            f"P{curr_player} He has no cards valid for discarding."
+                        )
 
             if service.state.phase == Phase.DEAD_TRICK_CALL:
                 caller_id = service.state.call.caller_player
