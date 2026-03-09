@@ -82,7 +82,7 @@ def game(num_games: int = 1000, show_prints: bool = True) -> None:
                             break
 
                     if not success:
-                        raise RuntimeError(f"P{curr_player} non ha carte valide per lo scarto.")
+                        raise RuntimeError(f"P{curr_player} He has no cards valid for discarding.")
 
             if service.state.phase == Phase.DEAD_TRICK_CALL:
                 caller_id = service.state.call.caller_player
@@ -133,25 +133,25 @@ def game(num_games: int = 1000, show_prints: bool = True) -> None:
 
         except Exception as e:  # pylint: disable=broad-exception-caught
             sys.stdout = original_stdout
-            print(f"Errore alla partita {game_idx}: {e}")
+            print(f"Match error {game_idx}: {e}")
             continue
         finally:
             if not show_prints:
                 sys.stdout = original_stdout
 
-    print("\nStatistiche configurazioni: ")
+    print("\nConfiguration statistics: ")
     for g in sorted(config_stats.keys()):
-        print(f"{g} Greedy vs {5 - g} Random: {config_stats[g]} partite")
+        print(f"{g} Greedy vs {5 - g} Random: {config_stats[g]} matches")
 
-    print("\nVittorie per giocatore")
+    print("\nWins per player")
     for p in sorted(win_counts.keys()):
-        print(f"Player {p}: {win_counts[p]} vittorie")
+        print(f"Player {p}: {win_counts[p]} victories")
 
-    print("\n[ Vittorie random e bot ]")
+    print("\n[ Random and Bot Wins]")
     for t, cnt in bot_type_player_wins.items():
-        print(f"{t}: {cnt} punti vittoria totali")
+        print(f"{t}: {cnt} total victory points")
 
-    print("\n[ Vittorie a livello di partita: ]")
+    print("\n[ Match-level wins: ]")
     for t in ["Greedy", "Random", "Tie"]:
         cnt = bot_type_game_wins[t]
         perc = (cnt / num_games * 100) if num_games > 0 else 0
