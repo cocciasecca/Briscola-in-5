@@ -268,7 +268,7 @@ class CLI:
 
         if res:
             pts_team, pts_others = res
-            target = self.service.state.call.target_points or 671
+            target = self.service.state.call.target_points or 71
 
             team_col = Col.GREEN if pts_team >= target else Col.RED
             def_col = Col.GREEN if pts_others > (120 - target) else Col.RED
