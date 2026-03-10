@@ -31,11 +31,18 @@ class RandomBot(BaseBot):
         trump_suit = random.choice(list(Suit))
         hand = state.hands[self.player_id]
 
-        valid_card = [
-            card for card in full_deck() if card not in hand and card.suit == trump_suit
+        played_cards = [pc.card for pc in state.trick.played]
+
+        valid_cards = [
+            card
+            for card in full_deck()
+            if card not in hand and card not in played_cards and card.suit == trump_suit
         ]
 
-        called_card = random.choice(valid_card)
+        if not valid_cards:
+            valid_cards = [c for c in full_deck() if c not in hand]
+
+        called_card = random.choice(valid_cards)
         return trump_suit, called_card.rank
 
     def play_card(self, state: GameState) -> int:

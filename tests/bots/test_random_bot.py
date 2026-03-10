@@ -4,22 +4,44 @@ from briscola5.domain.state import Phase
 
 
 def test_game_with_random_bots():
-    service = GameService()
-    service.setup_game(dealer_id=0)
+    valid_game_started = False
 
-    bots = {i: RandomBot(player_id=i) for i in range(5)}
+    while not valid_game_started:
+        service = GameService()
+        service.setup_game(dealer_id=0)
 
-    while service.state.phase == Phase.AUCTION:
-        curr_player = service.state.turn.current_player
-        bot = bots[curr_player]
-        bid = bot.make_bid(service.state)
-        service.auction_phase(curr_player, bid)
+        bots = {i: RandomBot(player_id=i) for i in range(5)}
+
+        consecutive_passes = 0
+        while service.state.phase == Phase.AUCTION:
+            curr_player = service.state.turn.current_player
+            bot = bots[curr_player]
+            bid = bot.make_bid(service.state)
+
+            if bid is None:
+                consecutive_passes += 1
+            else:
+                consecutive_passes = 0
+
+            service.auction_phase(curr_player, bid)
+
+            if consecutive_passes >= 5:
+                break
+
+        if service.state.phase == Phase.DEAD_TRICK_PLAY:
+            valid_game_started = True
 
     while service.state.phase == Phase.DEAD_TRICK_PLAY:
         curr_player = service.state.turn.current_player
         bot = bots[curr_player]
         card_index = bot.choose_discard(service.state)
-        service.play_card(curr_player, card_index)
+
+        success = service.play_card(curr_player, card_index)
+        if not success:
+            hand = service.state.hands[curr_player]
+            for fallback_idx in range(len(hand)):
+                if service.play_card(curr_player, fallback_idx):
+                    break
 
     if service.state.phase == Phase.DEAD_TRICK_CALL:
         caller_id = service.state.call.caller_player
