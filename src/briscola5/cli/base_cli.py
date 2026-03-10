@@ -246,11 +246,29 @@ class CLI:
         print("=" * 50 + f"{Col.RESET}")
 
         self.service.end_game()
+        caller = self.service.state.call.caller_player
+        partner = self.service.state.call.partner_player_internal
+        called_card = self.service.state.call.called_card
+        if called_card and caller is not None and partner is not None:
+            print(f"\n{Col.CYAN}--- IDENTITIES REVEALED ---{Col.RESET}")
+            print(
+                f"Called card: {Col.YELLOW} {called_card.rank.name}"
+                f" of {called_card.suit.name}{Col.RESET}"
+            )
+
+        if caller == partner:
+            print(f"The Caller ({Col.BOLD}Player {caller}{Col.RESET}) called themselves!")
+            print("They are playing 1 vs 4 (Solo).")
+        else:
+            print(f"Caller:  {Col.BOLD}Player {caller}{Col.RESET}")
+            print(f"Partner: {Col.BOLD}Player {partner}{Col.RESET}")
+
+        print(f"{Col.CYAN}---------------------------{Col.RESET}")
         res = self.service.state.team_points_if_known()
 
         if res:
             pts_team, pts_others = res
-            target = self.service.state.call.target_points or 61
+            target = self.service.state.call.target_points or 671
 
             team_col = Col.GREEN if pts_team >= target else Col.RED
             def_col = Col.GREEN if pts_others > (120 - target) else Col.RED
