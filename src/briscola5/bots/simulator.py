@@ -54,6 +54,7 @@ def game(num_games: int = 1000, show_prints: bool = True) -> None:
             )  # pylint: disable=consider-using-with
 
         try:
+            
             service.setup_game(dealer_id=game_idx % 5)
             bots, bot_types, num_greedy = generate_random_configuration()
             config_stats[num_greedy] += 1
@@ -62,7 +63,8 @@ def game(num_games: int = 1000, show_prints: bool = True) -> None:
                 curr_player = service.state.turn.current_player
                 bid = bots[curr_player].make_bid(service.state)
                 service.auction_phase(curr_player, bid)
-
+                if service.state.auction.last_bidder is None and all(service.state.auction.passed):
+                    break
             while service.state.phase == Phase.DEAD_TRICK_PLAY:
                 curr_player = service.state.turn.current_player
                 bot = bots[curr_player]
