@@ -35,15 +35,6 @@ def max_bid(strength: float) -> int:
     return int(round(bid))
 
 
-def choose_bid(hand: list[Card], current_bid: int, position_factor: float) -> int | None:
-    strength = estimate_hand_strength(hand)
-    bid = int(max_bid(strength) * position_factor)
-
-    if current_bid >= bid:
-        return None
-    return max(current_bid + 1, 71)
-
-
 class GreedyBot(BaseBot):
 
     def make_bid(self, state: GameState) -> int | None:
@@ -72,11 +63,12 @@ class GreedyBot(BaseBot):
             for i, card in enumerate(hand)
             if suit_counts[card.suit] == 1 and card.rank in dangerous_ranks
         ]
-        if naked_high_cards:
+
+        trick_points = sum(pc.card.points for pc in state.trick.played)
+        if naked_high_cards and trick_points < 10:
             return max(naked_high_cards, key=lambda i: hand[i].strength)
 
         trump = state.call.trump_suit
-
         non_trumps = [i for i, card in enumerate(hand) if trump is None or card.suit != trump]
 
         if non_trumps:
@@ -86,14 +78,29 @@ class GreedyBot(BaseBot):
 
     def declare_trump_and_card(self, state: GameState) -> tuple[Suit, Rank]:
         hand = state.hands[self.player_id]
-        best_suit = max(Suit, key=lambda s: evaluate_trump_suit(hand, s))
+        best_suit = max(list(Suit), key=lambda s: evaluate_trump_suit(hand, s))
 
         ranks_in_hand = [card.rank for card in hand if card.suit == best_suit]
-        call_priority = [Rank.ASSO, Rank.TRE, Rank.RE, Rank.CAVALLO, Rank.DONNA]
+
+        played_cards = [pc.card for pc in state.trick.played]
+        played_ranks_of_trump = [c.rank for c in played_cards if c.suit == best_suit]
+
+        call_priority = [
+            Rank.ASSO,
+            Rank.TRE,
+            Rank.RE,
+            Rank.CAVALLO,
+            Rank.DONNA,
+            Rank.SETTE,
+            Rank.SEI,
+            Rank.CINQUE,
+            Rank.QUATTRO,
+            Rank.DUE,
+        ]
 
         target_rank = Rank.ASSO
         for rank in call_priority:
-            if rank not in ranks_in_hand:
+            if rank not in ranks_in_hand and rank not in played_ranks_of_trump:
                 target_rank = rank
                 break
 
@@ -104,44 +111,69 @@ class GreedyBot(BaseBot):
         played = state.trick.played
         trump_suit = state.call.trump_suit
         caller = state.call.caller_player
+        called_card = state.call.called_card
+
+        am_i_partner = called_card in hand
 
         if not played:
             if self.player_id == caller:
                 t_idx = [i for i, c in enumerate(hand) if c.suit == trump_suit]
-
                 if t_idx:
                     t_sorted = sorted(t_idx, key=lambda i: hand[i].strength)
                     return t_sorted[len(t_sorted) // 2]
-
             return min(range(len(hand)), key=lambda i: (hand[i].points, hand[i].strength))
 
-        winning_card = played[0].card
+        lead_suit = played[0].card.suit
+        winning_pc = played[0]
+
         for pc in played[1:]:
             c = pc.card
-            if c.suit == trump_suit and winning_card.suit != trump_suit:
-                winning_card = c
-            elif c.suit == winning_card.suit and c.strength > winning_card.strength:
-                winning_card = c
+            w = winning_pc.card
+            if c.suit == trump_suit and w.suit != trump_suit:
+                winning_pc = pc
+            elif c.suit == w.suit and c.strength > w.strength:
+                winning_pc = pc
 
-        beating_indices = [
-            i
-            for i, card in enumerate(hand)
-            if (card.suit == trump_suit and winning_card.suit != trump_suit)
-            or (card.suit == winning_card.suit and card.strength > winning_card.strength)
-        ]
-
+        winning_player = winning_pc.player_id
         trick_points = sum(pc.card.points for pc in played)
         is_last = len(played) == len(state.hands) - 1
 
-        if beating_indices:
-            if is_last:
-                return min(beating_indices, key=lambda i: hand[i].strength)
+        friend_winning = False
+        if (
+            self.player_id == caller
+            and state.call.partner_revealed
+            and winning_player == state.call.partner_player_internal
+        ):
+            friend_winning = True
+        elif am_i_partner and winning_player == caller:
+            friend_winning = True
+        elif (
+            self.player_id != caller
+            and not am_i_partner
+            and winning_player != caller
+            and winning_player != state.call.partner_player_internal
+        ):
+            friend_winning = True
 
-            if trick_points >= 10:
+        if friend_winning and is_last:
+            non_trumps = [i for i, c in enumerate(hand) if c.suit != trump_suit]
+            if non_trumps:
+                return max(non_trumps, key=lambda i: hand[i].points)
+
+        beating_indices = []
+        for i, card in enumerate(hand):
+            w = winning_pc.card
+            if card.suit == trump_suit and w.suit != trump_suit:
+                beating_indices.append(i)
+            elif card.suit == w.suit and card.strength > w.strength:
+                if w.suit == lead_suit or w.suit == trump_suit:
+                    beating_indices.append(i)
+
+        if beating_indices and not friend_winning:
+            if is_last or trick_points >= 10:
                 return min(beating_indices, key=lambda i: hand[i].strength)
 
         non_trumps = [i for i, c in enumerate(hand) if trump_suit is None or c.suit != trump_suit]
-
         if non_trumps:
             return min(non_trumps, key=lambda i: (hand[i].points, hand[i].strength))
 

@@ -90,10 +90,14 @@ def test_play_card_beat_winning_card():
     state = GameState()
     state.hands[4] = [Card(Suit.SPADE, Rank.TRE), Card(Suit.ORO, Rank.DUE)]
     state.call.trump_suit = Suit.SPADE
-    pc = PlayedCard(player_id=1, card=Card(Suit.COPPE, Rank.ASSO))
-    state.trick.played = [pc]
+    pc1 = PlayedCard(player_id=0, card=Card(Suit.COPPE, Rank.DUE))
+    pc2 = PlayedCard(player_id=1, card=Card(Suit.COPPE, Rank.TRE))
+    pc3 = PlayedCard(player_id=2, card=Card(Suit.COPPE, Rank.RE))
+    pc4 = PlayedCard(player_id=3, card=Card(Suit.COPPE, Rank.ASSO))
+
+    state.trick.played = [pc1, pc2, pc3, pc4]
     card_idx = bot.play_card(state)
-    assert card_idx == 0
+    assert card_idx == 1
 
 
 def test_play_card_cannot_beat_plays_weakest():
