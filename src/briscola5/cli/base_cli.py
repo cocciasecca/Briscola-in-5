@@ -143,11 +143,14 @@ class CLI:
                 break
             print(f"{Col.RED}[!] Invalid choice.{Col.RESET}")
 
-        self.service.make_call(chosen_suit, chosen_rank)
-        print(
-            f"\n{Col.MAGENTA}[!] You called: "
-            f"{Col.BOLD}{chosen_rank.name} of {chosen_suit.name}!{Col.RESET}"
-        )
+        if self.service.make_call(chosen_suit, chosen_rank):
+            print(
+                f"\n{Col.MAGENTA}[!] You called: "
+                f"{Col.BOLD}{chosen_rank.name} of {chosen_suit.name}!{Col.RESET}"
+            )
+        else:
+            print(f"{Col.RED}[!] Invalid call. Choose again.{Col.RESET}")
+            self._human_call()
 
     def dead_trick(self):
         print(f"\n{Col.BLUE}" + "=" * 50)
