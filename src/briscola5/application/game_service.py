@@ -139,7 +139,9 @@ class GameService:
             auction.last_bid = offer
             auction.last_bidder = player_id
             print(f"{Col.GREEN}Player {player_id} bids {offer}!{Col.RESET}")
-
+        if auction.last_bid == 120:
+            print(f"{Col.GREEN}Player {player_id} made the maximum bid of 120!{Col.RESET}")
+            self._conclude_auction()
         if auction.active_players_count() == 1 and auction.last_bidder is not None:
             self._conclude_auction()
         elif auction.active_players_count() == 0 and auction.last_bidder is None:
