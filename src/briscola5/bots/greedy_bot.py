@@ -106,6 +106,7 @@ class GreedyBot(BaseBot):
 
         return best_suit, target_rank
 
+    # pylint: disable=too-many-locals, too-many-branches
     def play_card(self, state: GameState) -> int:
         hand = state.hands[self.player_id]
         played = state.trick.played
@@ -166,7 +167,7 @@ class GreedyBot(BaseBot):
             if card.suit == trump_suit and w.suit != trump_suit:
                 beating_indices.append(i)
             elif card.suit == w.suit and card.strength > w.strength:
-                if w.suit == lead_suit or w.suit == trump_suit:
+                if w.suit in (lead_suit, trump_suit):
                     beating_indices.append(i)
 
         if beating_indices and not friend_winning:
