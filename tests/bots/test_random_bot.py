@@ -5,29 +5,29 @@ from briscola5.domain.state import Phase
 
 def test_game_with_random_bots():
     valid_game_started = False
-    
+
     while not valid_game_started:
         service = GameService()
         service.setup_game(dealer_id=0)
 
         bots = {i: RandomBot(player_id=i) for i in range(5)}
-        
+
         consecutive_passes = 0
         while service.state.phase == Phase.AUCTION:
             curr_player = service.state.turn.current_player
             bot = bots[curr_player]
             bid = bot.make_bid(service.state)
-            
+
             if bid is None:
                 consecutive_passes += 1
             else:
                 consecutive_passes = 0
-                
+
             service.auction_phase(curr_player, bid)
-            
+
             if consecutive_passes >= 5:
                 break
-                
+
         if service.state.phase == Phase.DEAD_TRICK_PLAY:
             valid_game_started = True
 
@@ -35,7 +35,7 @@ def test_game_with_random_bots():
         curr_player = service.state.turn.current_player
         bot = bots[curr_player]
         card_index = bot.choose_discard(service.state)
-        
+
         success = service.play_card(curr_player, card_index)
         if not success:
             hand = service.state.hands[curr_player]
