@@ -1,5 +1,6 @@
+import random
 from collections import Counter
-import random 
+
 from briscola5.bots.base import BaseBot
 from briscola5.domain.card import Card, Rank, Suit
 from briscola5.domain.state import GameState
@@ -50,16 +51,16 @@ class GreedyBot(BaseBot):
 
         if current_bid >= calculated_max_bid:
             return None
-    
+
         distance = calculated_max_bid - current_bid
-        
+
         pass_probability = 1 / (distance + 1)
 
         if random.random() < pass_probability:
             return None
 
         return max(current_bid + 1, 71)
-    
+
     def choose_discard(self, state: GameState) -> int:
         hand = state.hands[self.player_id]
         suit_counts = Counter(card.suit for card in hand)
