@@ -1,3 +1,4 @@
+import random
 from collections import Counter
 
 from briscola5.bots.base import BaseBot
@@ -11,7 +12,7 @@ def evaluate_trump_suit(hand: list[Card], suit: Suit) -> float:
 
     points = sum(c.points for c in cards)
     strength_score = sum(c.strength for c in cards)
-    length_bonus = count * 2
+    length_bonus = count * 1.2
 
     has_ace = any(c.rank == Rank.ASSO for c in cards)
     has_three = any(c.rank == Rank.TRE for c in cards)
@@ -46,9 +47,16 @@ class GreedyBot(BaseBot):
         active_players = state.auction.active_players_count()
         factor = 1.05 if active_players <= 3 else 1.0
 
-        bid = int(max_bid(strength) * factor)
+        calculated_max_bid = int(max_bid(strength) * factor)
 
-        if current_bid >= bid:
+        if current_bid >= calculated_max_bid:
+            return None
+
+        distance = calculated_max_bid - current_bid
+
+        pass_probability = 1 / (distance + 1)
+
+        if random.random() < pass_probability:
             return None
 
         return max(current_bid + 1, 71)
