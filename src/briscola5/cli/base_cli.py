@@ -170,8 +170,12 @@ class CLI:
                     print(
                         f"{Col.RED}[!] Bot {curr_p} error. Forcing fallback discard.{Col.RESET}"
                     )
-                    self.service.play_card(curr_p, 0)
+                    hand = self.service.state.hands[curr_p]
+                    fallback_indices = sorted(range(len(hand)), key=lambda i: hand[i].points)
 
+                    for fallback_idx in fallback_indices:
+                        if self.service.play_card(curr_p, fallback_idx):
+                            break
         if self.service.state.phase == Phase.DEAD_TRICK_CALL:
             c_id = self.service.state.call.caller_player
             if c_id is not None:
