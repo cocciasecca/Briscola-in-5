@@ -11,7 +11,7 @@
 ## ⚙️ Come funziona
 
 1. **Distribuzione:** Il mazzo siciliano da 40 carte viene diviso equamente tra i 5 giocatori.
-2. **L'Asta:** I giocatori competono per dichiarare il punteggio obiettivo (da 120 a 61) e la carta di Briscola.
+2. **L'Asta:** I giocatori competono per dichiarare il punteggio obiettivo (da 71 a 120) e la carta di Briscola.
 3. **Il Socio:** Chi vince l'asta "chiama" una carta; chi la possiede diventa il suo socio segreto.
 4. **Gameplay:** 8 mani di gioco dove la strategia e il conteggio dei punti sono fondamentali.
 5. **Valutazione:** Calcolo finale dei punti per determinare se la coppia (Chiamante+Socio) ha raggiunto l'obiettivo.
