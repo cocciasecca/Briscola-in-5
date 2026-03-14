@@ -2,7 +2,6 @@
 
 ![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **Briscola in 5** è una implementazione digitale del classico gioco di carte siciliano "Briscola in 5", sviluppata in Python. Il progetto include sia il **motore di gioco** (engine) che un'interfaccia a riga di comando (CLI) e bot giocabili.
 
