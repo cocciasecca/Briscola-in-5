@@ -2,7 +2,6 @@
 
 ![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 **Briscola in 5** is a digital implementation of the classic Italian card game "Briscola in 5" (also known as *Call-ace*), developed in Python. The project includes the **game engine**, a Command Line Interface (CLI), and playable bots.
 
