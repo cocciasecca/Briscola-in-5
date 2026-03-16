@@ -1,20 +1,20 @@
-# 🤝 Contribuire a Briscola in 5
+# 🤝 Contributing to Briscola in 5
 
-Grazie per l'interesse nel contribuire a **Briscola in 5**! Che tu stia risolvendo un bug, aggiungendo una nuova strategia per i bot o migliorando la documentazione, il tuo aiuto è prezioso.
+Thank you for your interest in contributing to **Briscola in 5**! Whether you are fixing a bug, adding a new bot strategy, or improving the documentation, your help is invaluable.
 
 ---
 
-## 🛠️ Workflow di Sviluppo
+## 🛠️ Development Workflow
 
-### 1. Fork e Clone
-Per prima cosa, esegui il **Fork** della repository sul tuo profilo GitHub e clona il fork localmente:
+### 1. Fork and Clone
+First, fork the repository on your GitHub profile and clone the fork locally:
 ```bash
-git clone https://github.com/tuo-username/Briscola-in-5.git
+git clone https://github.com/Dr-Faxzty/Briscola-in-5.git
 cd Briscola-in-5
 ```
 
-### 2. Configurazione Ambiente
-Crea un ambiente virtuale e installa il progetto con le dipendenze di sviluppo:
+### 2. Environment Setup
+Create a virtual environment and install the project with development dependencies:
 ```bash
 python -m venv .venv
 # Windows
@@ -22,44 +22,45 @@ python -m venv .venv
 # Mac/Linux
 source .venv/bin/activate
 
-# Installa il progetto
+# Install the project
 pip install -e .
 ```
 
-### 3. Creare un Branch
-Crea un branch dedicato alla tua modifica:
+### 3. Create a Branch
+Create a branch dedicated to your modification:
 ```bash
-git checkout -b feature/nome-della-tua-feature
+git checkout -b feature/new-feature
 ```
 
 ---
 
-## 📝 Regole per i Commit
-Utilizziamo lo standard **Conventional Commits** per mantenere la cronologia pulita e leggibile. I messaggi devono seguire questo formato:
+## 📝 Rules for Commits
+We use the **Conventional Commits** standard to keep the history clean and readable. Messages must follow this format:
 
-`<tipo>(<ambito>): <descrizione>`
+`<type>(<scope>): <description>`
 
-**Tipi comuni**:
-- `feat`: Aggiunta di una nuova funzionalità
-- `fix`: Correzione di un bug
-- `docs`: Modifiche alla documentazione
-- `style`: Modifiche che non influenzano il significato del codice (spazi bianchi, formattazione, ecc.)
-- `refactor`: Modifiche al codice che non aggiungono funzionalità né correggono bug
-- `test`: Aggiunta o correzione di test
+**Common types**:
+- `feat`: Addition of a new feature
+- `fix`: Correction of a bug
+- `docs`: Changes to documentation
+- `style`: Modifications that do not affect the meaning of the code (whitespace, formatting, etc.)
+- `refactor`: Code changes that do not add functionality or fix bugs
+- `test`: Addition or correction of tests
 
-**Esempio**: ` feat(bot): aggiunta strategia di gioco basata su probabilità`
+**Example**: 
+` feat(bot): added game strategy based on probabilities`
 
 ---
 
-## 🧪 Test e Qualità del Codice
-Prima di sottoporre le tue modifiche, assicurati che tutto funzioni correttamente.
+## 🧪 Test and Code Quality
+Before submitting your changes, ensure everything works correctly.
 
-1. Esegui i test unitari:
+1. Run the unit tests:
 ```bash
 pytest tests/
 ```
 
-2. Linting e formattazione:
+2. Linting and formatting:
 ```bash
 isort src/ tests/
 black src/ tests/
@@ -68,18 +69,19 @@ flake8 src/ tests/
 
 ---
 
-## 📢 Inviare una Pull Request
+## 📢 Submitting a Pull Request
 
-1. Esegui il **Push** del tuo branch sul tuo fork:
+1. Run the **Push** of your branch on your fork:
 ```bash
-git push origin feature/nome-della-tua-feature
+git push origin feature/new-feature
 ```
 
-2. Vai sulla repository originale su GitHub.
-3. Clicca su **"Compare & pull request"**.
-4. Descrivi chiaramente le modifiche apportate e fai riferimento a eventuali Issue aperte.
+2. Go to the original repository on GitHub.
+3. Click on **"Compare & pull request"**.
+4. Describe clearly the changes you have made and reference any open issues.
 
 ---
-## 🙌 Grazie per il tuo contributo!
 
-Se hai domande o hai bisogno di aiuto, non esitare a contattarci aprendo un Issue o partecipando alla discussione su GitHub. Ogni contributo, grande o piccolo, è molto apprezzato!
+## 🙌 Thank you for your contribution!
+
+If you have questions or need help, feel free to contact us by opening an Issue or participating in the discussion on GitHub. Every contribution, big or small, is highly appreciated!
