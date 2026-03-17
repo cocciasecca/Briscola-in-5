@@ -14,9 +14,7 @@ authors = [
   { name = "Francesco Mancuso" },
 ]
 
-dependencies = [
-  # CLI deps (aggiungete qui quando scegliete la libreria)
-]
+dependencies = []
 
 [project.optional-dependencies]
 dev = [

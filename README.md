@@ -3,63 +3,63 @@
 ![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/)
 
-**Briscola in 5** è una implementazione digitale del classico gioco di carte siciliano "Briscola in 5", sviluppata in Python. Il progetto include sia il **motore di gioco** (engine) che un'interfaccia a riga di comando (CLI) e bot giocabili.
+**Briscola in 5** is a digital implementation of the classic Italian card game "Briscola in 5" (also known as *Call-ace*), developed in Python. The project includes the **game engine**, a Command Line Interface (CLI), and playable bots.
 
 ---
 
-## ⚙️ Come funziona
+## ⚙️ How it works
 
-1. **Distribuzione:** Il mazzo siciliano da 40 carte viene diviso equamente tra i 5 giocatori.
-2. **L'Asta:** I giocatori competono per dichiarare il punteggio obiettivo (da 71 a 120) e la carta di Briscola.
-3. **Il Socio:** Chi vince l'asta "chiama" una carta; chi la possiede diventa il suo socio segreto.
-4. **Gameplay:** 8 mani di gioco dove la strategia e il conteggio dei punti sono fondamentali.
-5. **Valutazione:** Calcolo finale dei punti per determinare se la coppia (Chiamante+Socio) ha raggiunto l'obiettivo.
+1. **Dealing:** The 40-card Sicilian deck is dealt equally among 5 players.
+2. **The Auction:** Players compete by declaring a target score (from 61 to 120) and the trump suit (*Briscola*).
+3. **The Partner:** The auction winner "calls" a card; whoever holds it becomes their secret partner.
+4. **Gameplay:** 8 rounds where strategy and point counting are essential.
+5. **Evaluation:** Final score calculation to determine if the pair (Caller+Partner) reached their goal.
 
 ---
 
-## 🚀 Avvio del gioco
-Per avviare una partita rapida direttamente nel tuo terminale:
+## 🚀 Launching the game
+To start a quick game directly in your terminal:
 ```bash
 python -m briscola5.cli.main
 ```
 
 ---
 
-## 🛠️ Architettura del Progetto
+## 🛠️ Project Architecture
 ```text
 briscola5/
-├── .github/workflows/    # Pipeline CI (GitHub Actions)
+├── .github/workflows/    # CI Pipeline (GitHub Actions)
 ├── src/
-│   ├── domain/           # Logica di gioco, gestione mazzo e regole
-│   ├── application/      # Orchestrazione partite
-│   ├── bots/             # Implementazione bot di gioco
-│   └── cli/              # Interfaccia a riga di comando
-├── tests/                # Test unitari
+│   ├── domain/           # Game logic, deck management and rules
+│   ├── application/      # Match orchestration
+│   ├── bots/             # Bot implementations 
+│   └── cli/              # Command-line interface
+├── tests/                # Unit tests
 ├── README.md
 ├── .gitignore
-├── .flake8               # Configurazione per linting
-└── pyproject.toml        # Configurazione del progetto e dipendenze
+├── .flake8               # Configuration for linting
+└── pyproject.toml        # Project configuration and dependencies
 ```
 
 ---
 
-## 🔭 Prossimi Passi
-- [ ] **Nuova GUI**: Implementazione con Pygame, Tkinter o altre librerie.
-- [ ] **IA Avanzata**: Bot basati su probabilità e conteggio carte rimaste.
-- [ ] **Multiplayer**: Supporto per giocare in rete locale tramite Socket.
+## 🔭 Next Steps
+- [ ] **New GUI**: Implementation with Pygame, Tkinter or other libraries.
+- [ ] **Advanced AI**: Bots based on probabilities and counting remaining cards.
+- [ ] **Multiplayer**: Support for playing over a local network via Socket.
 
 ---
 
-## 🤝 Contribuire
+## 🤝 Contributing
 
-Amiamo i contributi! Che tu sia un esperto di Briscola o un appassionato di Python, il tuo aiuto è il benvenuto. 
+We love contributions! Whether you are an expert in Briscola or a Python enthusiast, your help is welcome.
 
-Prima di iniziare, dai un'occhiata alle nostre **[Linee guida per il contributo](./CONTRIBUTING.md)** per dettagli su:
-- Come configurare l'ambiente di sviluppo.
-- Standard per i **Conventional Commits**.
-- Come eseguire test e linting.
+Before getting started, take a look at our **[Contribution Guidelines](./CONTRIBUTING.md)** for details on:
+- How to set up the development environment.
+- Standards for **Conventional Commits**.
+- How to run tests and linting.
 
 ---
 
-## ❤️ Supporta il progetto
-Se questo simulatore ti è stato utile per un esame o per divertimento, lascia una ⭐ su GitHub!
+## ❤️ Support the project
+If this simulator was useful for an exam or for fun, leave a ⭐ on GitHub!
