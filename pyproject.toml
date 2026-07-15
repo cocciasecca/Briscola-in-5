@@ -14,7 +14,13 @@ authors = [
   { name = "Francesco Mancuso" },
 ]
 
-dependencies = []
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.30,<1",
+]
+
+[project.scripts]
+briscola5-web = "briscola5.web.main:main"
 
 [project.optional-dependencies]
 dev = [
@@ -46,6 +52,7 @@ branch = true
 source = ["briscola5"]
 omit = [
   "src/briscola5/__init__.py",
+  "src/briscola5/web/*",
 ]
 
 [tool.coverage.report]
@@ -101,3 +108,6 @@ exclude = [
   ".pytest_cache",
   "htmlcov",
 ]
+
+[tool.setuptools.package-data]
+"briscola5.web" = ["static/*.html", "static/*.css", "static/*.js", "static/cards/*.jpg"]

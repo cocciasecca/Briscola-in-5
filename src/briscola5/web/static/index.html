@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Briscola in 5</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div id="toast" class="toast hidden"></div>
+  <!-- Italian player-facing copy is intentional; developer comments remain English. -->
+  <section id="join-screen" class="screen center">
+    <div class="panel join-panel">
+      <h1>Briscola in 5</h1>
+      <p class="subtitle">Partita sulla rete locale</p>
+      <label for="name">Il tuo nome</label>
+      <input id="name" maxlength="24" placeholder="Matteo" autocomplete="nickname">
+      <button id="join-btn" class="primary">Entra al tavolo</button>
+      <p id="server-address" class="muted"></p>
+    </div>
+  </section>
+
+  <main id="game-screen" class="hidden">
+    <header>
+      <div>
+        <h1>Briscola in 5</h1>
+        <span id="phase-label"></span>
+      </div>
+      <div class="header-right">
+        <span id="connection" class="status">Connessione…</span>
+        <button id="start-btn" class="primary hidden">Avvia con i bot</button>
+      </div>
+    </header>
+
+    <section id="pause-banner" class="pause hidden">
+      <strong>Partita in pausa</strong>
+      <span id="pause-reason"></span>
+      <div id="replace-actions"></div>
+    </section>
+
+    <!-- The table is state-driven: no hidden game rules are implemented in HTML/JS. -->
+    <section class="table-wrap">
+      <div id="table" class="table">
+        <aside id="called-card-box" class="called-card-box hidden">
+          <div class="called-card-heading">Carta chiamata</div>
+          <div id="called-card"></div>
+          <div id="called-card-label" class="called-card-label"></div>
+        </aside>
+        <div id="trick-result" class="trick-result hidden"></div>
+        <div class="felt-title">
+          <div id="event-line">In attesa dei giocatori</div>
+          <div id="game-meta"></div>
+        </div>
+        <div id="players"></div>
+        <div id="played-cards" class="played-cards"></div>
+      </div>
+    </section>
+
+    <section id="controls" class="controls panel">
+      <div id="lobby-controls">
+        <h2>Sala d'attesa</h2>
+        <p>Il primo giocatore è l'host. Quando vuoi, avvia la partita: i posti vuoti saranno riempiti dai bot.</p>
+      </div>
+      <div id="auction-controls" class="hidden">
+        <h2>Asta</h2>
+        <div class="inline-controls">
+          <input id="bid-value" type="number" min="71" max="120" value="71">
+          <button id="bid-btn" class="primary">Offri</button>
+          <button id="pass-btn">Passa</button>
+        </div>
+      </div>
+      <div id="call-controls" class="hidden">
+        <h2>Chiama la carta</h2>
+        <div class="inline-controls">
+          <select id="call-suit">
+            <option value="denari">Denari</option><option value="coppe">Coppe</option>
+            <option value="spade">Spade</option><option value="bastoni">Bastoni</option>
+          </select>
+          <select id="call-rank">
+            <option value="1">Asso</option><option value="2">Due</option><option value="3">Tre</option>
+            <option value="4">Quattro</option><option value="5">Cinque</option><option value="6">Sei</option>
+            <option value="7">Sette</option><option value="8">Fante</option><option value="9">Cavallo</option>
+            <option value="10">Re</option>
+          </select>
+          <button id="call-btn" class="primary">Conferma chiamata</button>
+        </div>
+      </div>
+      <div id="play-help" class="hidden"><h2 id="play-title">Il tuo turno</h2><p>Clicca una carta per giocarla.</p></div>
+      <div id="waiting-controls" class="hidden"><h2 id="waiting-title">Attendi il tuo turno</h2></div>
+      <div id="result-controls" class="hidden"></div>
+    </section>
+
+    <!-- The client groups the viewer's cards by suit while preserving server indices. -->
+    <section class="hand-wrap">
+      <h2>La tua mano</h2>
+      <div id="hand" class="hand"></div>
+    </section>
+  </main>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

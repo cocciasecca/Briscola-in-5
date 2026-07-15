@@ -1,0 +1,47 @@
+/* Responsive LAN table UI. Game-state decisions are handled by the Python server. */
+:root { color-scheme: dark; --gold:#e5b94f; --felt:#17633f; --felt2:#0e452c; --panel:#20242b; --danger:#d85b5b; }
+* { box-sizing: border-box; }
+body { margin:0; min-height:100vh; font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif; background:#11151a; color:#f5f2e8; }
+.hidden { display:none !important; }
+.screen.center { min-height:100vh; display:grid; place-items:center; padding:20px; }
+.panel { background:rgba(31,36,43,.96); border:1px solid #3b424c; border-radius:18px; box-shadow:0 18px 50px #0008; }
+.join-panel { width:min(430px,100%); padding:34px; }
+h1,h2,p { margin-top:0; } h1 { color:var(--gold); letter-spacing:.02em; }
+.subtitle,.muted { color:#aeb7c2; }
+label { display:block; margin:20px 0 7px; }
+input,select,button { font:inherit; border-radius:10px; border:1px solid #596270; padding:11px 14px; background:#15191f; color:#fff; }
+button { cursor:pointer; transition:.15s; } button:hover { transform:translateY(-1px); border-color:#8994a2; }
+button.primary { background:var(--gold); color:#211b0c; border-color:#f6d47a; font-weight:800; }
+.join-panel input,.join-panel button { width:100%; margin-bottom:12px; }
+header { min-height:74px; display:flex; align-items:center; justify-content:space-between; gap:15px; padding:12px 22px; background:#191e24; border-bottom:1px solid #343b45; }
+header h1 { margin:0; font-size:1.35rem; }.header-right { display:flex; align-items:center; gap:12px; }.status { color:#aeb7c2; }
+.table-wrap { padding:20px; }.table { position:relative; width:min(1050px,96vw); height:min(600px,62vh); min-height:430px; margin:auto; border-radius:48%; background:radial-gradient(circle,var(--felt),var(--felt2)); border:13px solid #5b3520; box-shadow:inset 0 0 45px #0008,0 20px 50px #0009; }
+.felt-title { position:absolute; inset:42% 20% auto; text-align:center; color:#e7efe9; }.felt-title #event-line { font-weight:800; font-size:1.08rem; }.felt-title #game-meta { margin-top:8px; opacity:.8; }
+.player { position:absolute; width:150px; padding:9px 10px; text-align:center; border-radius:13px; background:#171b20e8; border:2px solid #48515c; }
+.player.current { border-color:var(--gold); box-shadow:0 0 18px #e5b94f99; }.player.me { background:#273039; }.player.disconnected { border-color:var(--danger); opacity:.78; }
+.player .name { font-weight:800; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }.player .details { font-size:.82rem; color:#b8c0ca; margin-top:4px; }
+.player.p0 { left:50%; bottom:-12px; transform:translateX(-50%); }.player.p1 { left:-38px; bottom:25%; }.player.p2 { left:12%; top:-22px; }.player.p3 { right:12%; top:-22px; }.player.p4 { right:-38px; bottom:25%; }
+.played-card { position:absolute; transform:translate(-50%,-50%); }.played-card.pc0 { left:50%; top:68%; }.played-card.pc1 { left:34%; top:55%; }.played-card.pc2 { left:40%; top:34%; }.played-card.pc3 { left:60%; top:34%; }.played-card.pc4 { left:66%; top:55%; }
+.card { width:92px; height:148px; border-radius:8px; background:#f4e4bd; border:2px solid #c8aa70; box-shadow:0 6px 16px #0008; overflow:hidden; user-select:none; }
+.card img { display:block; width:100%; height:100%; object-fit:cover; pointer-events:none; }
+.controls { width:min(900px,calc(100% - 30px)); margin:0 auto 12px; padding:16px 20px; text-align:center; }.controls h2 { font-size:1.1rem; margin-bottom:9px; }.inline-controls { display:flex; flex-wrap:wrap; justify-content:center; gap:9px; }
+.hand-wrap { padding:8px 14px 30px; text-align:center; }.hand { min-height:165px; display:flex; justify-content:center; align-items:flex-end; flex-wrap:nowrap; gap:24px; padding:10px 18px 18px; overflow-x:auto; overflow-y:hidden; }.suit-group { display:flex; align-items:flex-end; flex:0 0 auto; padding:0 3px; }.suit-group .card { margin-left:-22px; cursor:pointer; transition:.16s; }.suit-group .card:first-child { margin-left:0; }.hand .card:hover { transform:translateY(-18px) rotate(0deg) !important; z-index:5; }.hand.disabled .card { cursor:default; filter:brightness(.82); }.hand.disabled .card:hover { transform:none !important; }
+.pause { margin:14px auto 0; width:min(900px,calc(100% - 30px)); padding:12px 16px; border-radius:12px; background:#5f2929; border:1px solid #d36b6b; text-align:center; }.pause span { margin:0 12px; }.pause button { margin:6px; }
+.toast { position:fixed; z-index:50; right:20px; top:20px; max-width:420px; padding:13px 17px; border-radius:10px; background:#7c2f2f; box-shadow:0 8px 28px #0009; }
+.result { font-size:1.15rem; }.win { color:#68d391; }.lose { color:#ff8585; }
+@media(max-width:720px){ header{padding:10px;align-items:flex-start}.table{height:520px;border-radius:32%;}.player{width:112px;font-size:.8rem}.player.p1{left:-16px}.player.p4{right:-16px}.player.p2{left:7%}.player.p3{right:7%}.card{width:70px;height:112px}.hand{justify-content:flex-start;gap:16px;padding-inline:10px}.suit-group .card{margin-left:-25px}.felt-title{inset:43% 15% auto}.header-right{flex-direction:column;align-items:flex-end} }
+
+/* Persistent called-card panel shown after the auction. */
+.called-card-box { position:absolute; z-index:8; left:24px; top:22px; width:126px; padding:10px; text-align:center; border-radius:14px; background:#171b20e8; border:2px solid var(--gold); box-shadow:0 8px 24px #0008; }
+.called-card-heading { margin-bottom:7px; color:var(--gold); font-weight:900; font-size:.88rem; text-transform:uppercase; letter-spacing:.04em; }
+.called-card-box .card { width:72px; height:116px; margin:auto; }
+.called-card-label { margin-top:7px; font-size:.78rem; font-weight:700; line-height:1.15; }
+@media(max-width:720px){ .called-card-box{left:8px;top:8px;width:94px;padding:7px}.called-card-box .card{width:54px;height:87px}.called-card-heading{font-size:.67rem}.called-card-label{font-size:.64rem} }
+
+/* Completed-trick overlay kept visible during the server-side collection delay. */
+.trick-result { position:absolute; z-index:12; left:50%; top:17%; transform:translateX(-50%); min-width:260px; max-width:70%; padding:11px 18px; text-align:center; border-radius:999px; background:#171b20f2; border:2px solid var(--gold); color:#ffe299; box-shadow:0 8px 28px #000a,0 0 20px #e5b94f55; font-weight:950; letter-spacing:.035em; animation:winnerPop .22s ease-out; }
+.player.winner { border-color:#ffe299; box-shadow:0 0 24px #ffe299cc; }
+.played-card .card { animation:cardDrop .2s ease-out; }
+@keyframes cardDrop { from { opacity:0; transform:scale(.82) translateY(-12px); } to { opacity:1; transform:scale(1) translateY(0); } }
+@keyframes winnerPop { from { opacity:0; transform:translateX(-50%) scale(.86); } to { opacity:1; transform:translateX(-50%) scale(1); } }
+@media(max-width:720px){ .trick-result{top:18%;min-width:210px;max-width:76%;padding:8px 12px;font-size:.78rem} }

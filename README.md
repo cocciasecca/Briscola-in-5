@@ -63,3 +63,36 @@ Before getting started, take a look at our **[Contribution Guidelines](./CONTRIB
 
 ## ❤️ Support the project
 If this simulator was useful for an exam or for fun, leave a ⭐ on GitHub!
+
+---
+
+## 🌐 LAN web interface
+
+The repository also includes an optional browser-based multiplayer interface.
+The original `domain`, `application`, `bots`, and `cli` packages are unchanged:
+the LAN-specific adaptation is isolated under `src/briscola5/web/`.
+
+Only the host computer needs Python. Other players connect from a browser on
+the same local network. Empty seats are filled with bots; a disconnected match
+pauses until the player reconnects or the host replaces that seat with a bot.
+
+### Quick start
+
+- **Windows:** run `avvia_windows.bat`
+- **macOS/Linux:** run `./avvia_mac_linux.sh`
+
+The launcher installs dependencies only on the first run (or after
+`pyproject.toml` changes), then prints the URL to open on the other devices.
+
+Manual launch:
+
+```bash
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+pip install -e .
+python -m briscola5.web.main
+```
+
+The visible interface is in Italian, while comments and technical documentation
+remain in English. See [`ISTRUZIONI_LAN.md`](ISTRUZIONI_LAN.md) for usage and
+firewall notes, and [`CREDITI_CARTE.md`](CREDITI_CARTE.md) for card-image credits.
